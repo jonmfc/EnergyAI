@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Machine Learning Project</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<style>
+    .body-padding-bottom {
+        padding-bottom: 50px;
+    }
+</style>
+
+</head>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="/">
+    <img src="../static/LogoDone.jpg" alt="EnerPrognosis Logo" class="img-fluid" width="50" height="50">
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="counties">Counties</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="contact">Contact</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="about">About</a>
+      </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="machinelearning">MachineLearning</a>
+        </li>
+    </ul>
+  </div>
+</nav>
+<body class="body-padding-bottom">
+<div class="container">
+    <h1 class="text-center mt-5">Machine Learning / Artificial Intelligence Model</h1>
+
+    <div class="my-5">
+        <h2>Importing Algorithms and Libraries</h2>
+        <pre><code class="language-python">
+            import numpy as np
+            import pandas as pd
+            import matplotlib.pyplot as plt
+            import seaborn as sns
+            import sklearn as skl
+                </code></pre>
+    </div>
+
+    <div class="my-5">
+    <h2>Plotting Data</h2>
+    <pre><code class="language-python">
+        data=pd.read_csv('data_final.csv')
+        data.plot()
+    </code></pre>
+    <img style="width: 50%; padding: 30px 0;" src="https://media.discordapp.net/attachments/1109323119396655165/1109833642492051466/Screenshot_2023-05-21_at_6.22.37_AM.png?width=1202&height=1008" alt="Data Plot">
+</div>
+
+    <div class="card border-dark">
+        <div class="card-body">
+            Plot of all of the combined data off the csv file.
+        </div>
+    </div>
+
+    <div class="my-5">
+        <h2>Correlation Matrix/Heat Map</h2>
+        <pre><code class="language-python">
+            corr_matrix = data.corr()
+
+            corr_matrix['2021'].sort_values(ascending=True)
+
+            sns.heatmap(corr_matrix)
+                </code></pre>
+            <img style="width: 50%; padding: 30px 0;" src="https://media.discordapp.net/attachments/1109323119396655165/1109833873694662766/Screenshot_2023-05-21_at_6.23.31_AM.png?width=1168&height=934" alt="Correlation Matrix / Heat Map">
+
+    </div>
+    <div class="card border-dark">
+        <div class="card-body">
+            Correlation matrix that enables developers to view the most and least influential variables when training the model.
+        </div>
+    </div>
+
+    <div class="my-5">
+        <h2>Indexing Data</h2>
+        <pre><code class="language-python">
+            cols = [2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003, 2002, 2001, 2000, 1999, 1998, 1997, 1996, 1995, 1994, 1993, 1992, 1991, 1990]
+            counties = ['ALAMEDA', 'ALPINE', 'AMADOR', 'BUTTE', 'CALAVERAS', 'COLUSA', 'CONTRA COSTA', 'DEL NORTE', 'EL DORADO', 'FRESNO', 'GLENN', 'HUMBOLDT', 'IMPERIAL', 'INYO', 'KERN', 'KINGS', 'LAKE', 'LASSEN', 'LOS ANGELES', 'MADERA', 'MARIN', 'MARIPOSA', 'MENDOCINO', 'MERCED', 'MODOC', 'MONO', 'MONTEREY', 'NAPA', 'NEVADA', 'ORANGE', 'PLACER', 'PLUMAS', 'RIVERSIDE', 'SACRAMENTO', 'SAN BENITO', 'SAN BERNARDINO', 'SAN DIEGO', 'SAN FRANCISCO', 'SAN JOAQUIN', 'SAN LUIS OBISPO', 'SAN MATEO', 'SANTA BARBARA', 'SANTA CLARA', 'SANTA CRUZ', 'SHASTA', 'SIERRA', 'SISKIYOU', 'SOLANO', 'SONOMA', 'STANISLAUS', 'SUTTER', 'TEHAMA', 'TRINITY', 'TULARE', 'TUOLUMNE', 'VENTURA', 'YOLO', 'YUBA']
+            # population = ['E2021', 'E2020', 'E2019', 'E2018', 'E2017', 'E2016', 'E2015', 'E2014', 'E2013', 'E2012', 'E2011', 'E2010', 'E2009', 'E2008', 'E2007', 'E2006', 'E2005', 'E2004', 'E2003', 'E2002', 'E2001', 'E2000', 'E1999', 'E1998', 'E1997', 'E1996', 'E1995', 'E1994', 'E1993', 'E1992', 'E1991', 'E1990']
+
+            X = []
+            y = []
+
+            for index, rows in data.iterrows():
+                for col in cols:
+                    value = rows[str(col)]
+                    if isinstance(value, str):
+                        value = int(value.replace(',', ''))
+                    #else:
+                    #    value = 0  # Set a default value for empty cells or non-string values
+                    X.append([col, index, value])
+                    print([col, index, value])
+
+                    y_value = rows['E' + str(col)]
+                    if isinstance(y_value, str):
+                        y_value = int(y_value.replace(',', ''))
+                    #else:
+                    #    y_value = 0  # Set a default value for empty cells or non-string values
+                    y.append(y_value)
+
+            y = np.array(y)
+            X = np.array(X)
+
+            print(X)
+            print(y)
+                </code></pre>
+    </div>
+    <div class="card border-dark">
+        <div class="card-body">
+            Using the columns and the subsequent counties as well as the energy data stored in the corresponding columns to create iterable dataset. After iterating through the data we form a numpy array that will be used to train and test the model. Obtaining the energy was easily accomplished by notating the energy columns using the character 'E'. In addition, we utilized the replace function to format the data correctly by removing commas where necessary.
+        </div>
+    </div>
+
+    <div class="my-5">
+        <h2>Splitting Training and Testing Sets</h2>
+        <pre><code class="language-python">
+            from sklearn.model_selection import train_test_split
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+                </code></pre>
+    </div>
+    <div class="card border-dark">
+        <div class="card-body">
+            Using Sklearn's training and testing split model function we split the data to a 80/20 ratio where we used 80% of the data for training the model and 20% for testing.
+        </div>
+    </div>
+
+    <div class="my-5">
+        <h2>Applying Linear Regression</h2>
+        <pre><code class="language-python">
+            from sklearn.model_selection import train_test_split
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+            from sklearn.metrics import r2_score, mean_squared_error
+
+            from sklearn.linear_model import LinearRegression
+
+            model = LinearRegression()
+            model.fit(X_train, y_train)
+
+            predictions = model.predict(X_test)
+
+            print(predictions)
+
+            r2 = r2_score(y_test, predictions)
+            mse = mean_squared_error(y_test, predictions)
+
+            print(y_test)
+
+            print("R-squared:", r2)
+            print("Mean Squared Error:", mse)
+                </code></pre>
+    </div>
+    <div class="card border-dark">
+        <div class="card-body">
+            Initialized the linear regression model and fit it into our training and testing sets. We used rsquare and mean square error to check our accuracy. We were able to find an accuracy of up to 98%.
+        </div>
+    </div>
+
+    <div class="my-5">
+        <h2>Predicting Values</h2>
+        <pre><code class="language-python">
+            nested_dict = {}
+
+            for i in range(58):
+                nested_dict[i] = {}  # Create a nested dictionary for each i
+
+                for j in range(1990, 2051):
+                    population = data.loc[i, str(j)]
+                    prediction = model.predict([[j, i, population]])
+
+                    nested_dict[i][j] = (population, prediction[0])  # Assign the tuple (population, prediction) to the nested key
+
+            print(nested_dict)
+                </code></pre>
+    </div>
+    <div class="card border-dark">
+    <div class="card-body">
+        We displayed the prediction is a readable nested dictionary. This was necessary to easily allow that data to be used on our website.
+    </div>
+</div>
+</div>
+
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-python.min.js"></script>
+
+</body>
+</html>

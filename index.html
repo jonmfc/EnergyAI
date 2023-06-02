@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #cdeffa;
+    }
+
+    .graph-container {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    #energyChart {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .center-image {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+
+    .center-image img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="/">
+    <img src="LogoDone.jpg" alt="EnerPrognosis Logo" class="img-fluid" width="50" height="50">
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="counties">Counties</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="contact">Contact</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="about">About</a>
+      </li>
+        <li class="nav-item">
+          <a class="nav-link" href="machinelearning">MachineLearning</a>
+        </li>
+    </ul>
+  </div>
+</nav>
+<br><br>
+
+<center><h1>Welcome to EnergyAI</h1></center>
+
+<div class="container">
+  <div class="row">
+      <br><br>
+    <div class="col-lg-5 mx-auto my-3.2">
+        <br><br>
+      <img src="../static/LogoDone.jpg" alt="EnerPrognosis Logo" class="img-fluid">
+    </div>
+    <div class="col-lg-7 my-4">
+        <br>
+<h2>Random Fun Fact:</h2>  {{ random_fact }}<br><br>
+        <br>
+      <p>Introducing EnergyAI, a groundbreaking app that revolutionizes energy forecasting by leveraging the power of machine learning and cross-referencing vast amounts of data on the human population. By harnessing the potential of cutting-edge technology, EnergyAI offers accurate predictions of future energy outputs, helping individuals, businesses, and governments make informed decisions about their energy needs.</p>
+
+      <p>Through the utilization of sophisticated algorithms, EnergyAI analyzes a wide range of variables, including demographic information, socioeconomic indicators, energy consumption patterns, and environmental factors. By training on historical data and continuously updating its models, the app learns to identify intricate correlations and patterns within the dataset. This enables EnergyAI to provide reliable predictions on energy demands, supply shortages, and potential renewable energy generation, thereby supporting the transition to sustainable and efficient energy systems.</p>
+
+      <p>EnergyAI is crucial in addressing the challenges of an ever-growing energy demand and the need for sustainable energy solutions. By accurately forecasting energy outputs and identifying potential renewable energy sources, EnergyAI helps optimize energy distribution, reduce reliance on non-renewable resources, and mitigate the environmental impact of energy generation. It empowers individuals, businesses, and governments to plan for the future, make informed decisions, and contribute to a more sustainable and energy-efficient world.</p>
+    </div>
+  </div>
+</div>
+
+<script src="Untitled drawing.jpg"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var years = {{ years|tojson }};
+    var energyValues = {{ energy_values|tojson }};
+
+    var ctx = document.getElementById("energyChart").getContext("2d");
+    var energyChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: years,
+        datasets: [{
+          label: 'Energy',
+          data: energyValues,
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  });
+</script>
+</body>
+</html>
